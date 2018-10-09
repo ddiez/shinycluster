@@ -67,7 +67,7 @@ server <- function(input, output, session) {
     cluster_finish_editing <- function() {
         values$choose_cluster <- FALSE
         updateActionButton(session, "add", "Add clusters")
-        diable("clear")
+        disable("clear")
     }
 
     cluster_finish <- function() {
