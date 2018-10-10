@@ -93,7 +93,7 @@ server <- function(input, output, session) {
         pol.x <- cluster_data$x[cluster_data$cluster == cluster]
         pol.y <- cluster_data$y[cluster_data$cluster == cluster]
         sel <- point.in.polygon(y$x, y$y, pol.x, pol.y) == 1
-        values$data$final[sel] <<- cluster
+        values$data$final[sel] <- cluster
     }
 
     observeEvent(input$plot_dblclick, {
