@@ -110,7 +110,7 @@ server <- function(input, output, session) {
     })
 
     output$plot <- renderPlot({
-        tmp <- bind_rows(y, values$cluster_data, values$add_cluster)
+        tmp <- bind_rows(values$data, values$cluster_data, values$add_cluster)
         tmp <- tmp %>% mutate(cluster = factor(cluster))
         tmp2 <- tmp %>% filter(cluster != "0")
 
