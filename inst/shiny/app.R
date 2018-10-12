@@ -118,9 +118,7 @@ server <- function(input, output, session) {
 
         p <- ggplot(tmp, aes(x, y, color = cluster, size = cluster)) +
             geom_point() +
-            scale_size_manual(values = c(1, rep(3, ncluster))) +
-            theme(aspect.ratio = 1)
-
+            scale_size_manual(values = c(1, rep(3, ncluster)))
         if (nrow(tmp2) > 1) {
             p <- p + geom_path(data = tmp2, size = 1)
         }
