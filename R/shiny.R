@@ -104,10 +104,12 @@ server_fun <- function(values) {
     }
 
     cluster_add_point <- function(x, y) {
-      tmp <- data.frame(
-        x = x,
-        y = y,
-        cluster = values$ncluster + 1)
+      tmp <- list()
+      tmp[[input$xvar]] <- x
+      tmp[[input$yvar]] <- y
+      tmp[["cluster"]] <- values$ncluster + 1
+      tmp <- as.data.frame(tmp)
+
       values$add_cluster <- bind_rows(values$add_cluster, tmp)
     }
 
@@ -116,8 +118,8 @@ server_fun <- function(values) {
       cluster <- values$ncluster
       data <- values$data
 
-      pol.x <- cluster_data$x[cluster_data$cluster == cluster]
-      pol.y <- cluster_data$y[cluster_data$cluster == cluster]
+      pol.x <- cluster_data[[input$xvar]][cluster_data$cluster == cluster]
+      pol.y <- cluster_data[[input$yvar]][cluster_data$cluster == cluster]
       sel <- point.in.polygon(data[[input$xvar]], data[[input$yvar]], pol.x, pol.y) == 1
       data$final[sel] <- cluster
 
@@ -173,6 +175,7 @@ server_fun <- function(values) {
     })
 
     output$debug <- renderPrint({
+      values$cluster_data
     })
   }
   server
