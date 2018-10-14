@@ -2,12 +2,20 @@
 % Please edit documentation in R/shiny.R
 \name{select_cluster}
 \alias{select_cluster}
+\alias{select_cluster.SingleCellExperiment}
+\alias{select_cluster.data.frame}
 \title{select_cluster}
 \usage{
-select_cluster(x)
+select_cluster(x, ...)
+
+\method{select_cluster}{SingleCellExperiment}(x, coord.name = "tSNE")
+
+\method{select_cluster}{data.frame}(x)
 }
 \arguments{
 \item{x}{object to be passed to the shiny app.}
+
+\item{...}{futher arguments passed down to methods.}
 }
 \description{
 select_cluster

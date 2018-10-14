@@ -1,9 +1,26 @@
 #' select_cluster
 #'
 #' @param x object to be passed to the shiny app.
+#' @param ... futher arguments passed down to methods.
 #'
 #' @export
-select_cluster <- function(x) {
+select_cluster <- function(x, ...) {
+  UseMethod("select_cluster")
+}
+
+#' @rdname select_cluster
+#' @export
+select_cluster.SingleCellExperiment <- function(x, coord.name = "tSNE") {
+  d <- get_coord(x, coord.name) %>%
+    as.data.frame() %>%
+    rename(x = 1, y = 2) %>%
+    mutate(cluster = 0, final = 0)
+  select_cluster(d)
+}
+
+#' @rdname select_cluster
+#' @export
+select_cluster.data.frame <- function(x) {
   app <- app_fun(x)
   runApp(app)
 }
