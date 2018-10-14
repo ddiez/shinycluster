@@ -8,9 +8,10 @@
 \usage{
 select_cluster(x, ...)
 
-\method{select_cluster}{SingleCellExperiment}(x, coord.name = "tSNE")
+\method{select_cluster}{SingleCellExperiment}(x, coord.name = "tSNE",
+  ...)
 
-\method{select_cluster}{data.frame}(x)
+\method{select_cluster}{data.frame}(x, ...)
 }
 \arguments{
 \item{x}{object to be passed to the shiny app.}

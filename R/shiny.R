@@ -11,7 +11,7 @@ select_cluster <- function(x, ...) {
 
 #' @rdname select_cluster
 #' @export
-select_cluster.SingleCellExperiment <- function(x, coord.name = "tSNE") {
+select_cluster.SingleCellExperiment <- function(x, coord.name = "tSNE", ...) {
   d <- get_coord(x, coord.name) %>%
     as.data.frame() %>%
     rename(x = 1, y = 2) %>%
@@ -21,7 +21,7 @@ select_cluster.SingleCellExperiment <- function(x, coord.name = "tSNE") {
 
 #' @rdname select_cluster
 #' @export
-select_cluster.data.frame <- function(x) {
+select_cluster.data.frame <- function(x, ...) {
   app <- app_fun(x)
   runApp(app)
 }
