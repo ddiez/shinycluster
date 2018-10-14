@@ -62,7 +62,15 @@ server_fun <- function(values) {
     )
 
     observeEvent(input$clear, {
-      values$add_cluster = data.frame()
+      values$add_cluster <- data.frame()
+    })
+
+    observeEvent(input$undo, {
+      tmp <- values$add_cluster
+      if (nrow(tmp) > 0) {
+        tmp <- tmp[seq_len(nrow(tmp) - 1), ]
+        values$add_cluster <- tmp
+      }
     })
 
     observeEvent(input$add, {
@@ -76,19 +84,21 @@ server_fun <- function(values) {
     cluster_start_editing <- function() {
       values$choose_cluster <- TRUE
       updateActionButton(session, "add", "Finish")
+      enable("undo")
       enable("clear")
     }
 
     cluster_finish_editing <- function() {
       values$choose_cluster <- FALSE
       updateActionButton(session, "add", "Add clusters")
+      disable("undo")
       disable("clear")
     }
 
     cluster_finish <- function() {
       values$add_cluster <- bind_rows(values$add_cluster, values$add_cluster[1, ])
       values$cluster_data <- bind_rows(values$cluster_data, values$add_cluster)
-      values$add_cluster <- NULL
+      values$add_cluster <- data.frame()
       values$ncluster <- values$ncluster + 1
       assign_cluster()
     }
@@ -166,6 +176,7 @@ ui_fun <- function() {
     sidebarLayout(
       sidebarPanel(
         actionButton("add", "Add clusters", width = 100),
+        disabled(actionButton("undo", "Undo", width = 100)),
         disabled(actionButton("clear", "Clear")),
         h3("# clusters"),
         verbatimTextOutput("ncluster"),
