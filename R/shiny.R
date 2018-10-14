@@ -1,6 +1,7 @@
 #' select_cluster
 #'
 #' @param x object to be passed to the shiny app.
+#' @param coord.name name for the slot containing coordinates.
 #' @param ... futher arguments passed down to methods.
 #'
 #' @export

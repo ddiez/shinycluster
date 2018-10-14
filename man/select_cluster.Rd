@@ -16,6 +16,8 @@ select_cluster(x, ...)
 \item{x}{object to be passed to the shiny app.}
 
 \item{...}{futher arguments passed down to methods.}
+
+\item{coord.name}{name for the slot containing coordinates.}
 }
 \description{
 select_cluster
