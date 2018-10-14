@@ -185,11 +185,12 @@ ui_fun <- function() {
 
     sidebarLayout(
       sidebarPanel(
-        actionButton("add", "Add clusters", width = 100),
-        disabled(actionButton("undo", "Undo", width = 100)),
-        disabled(actionButton("clear", "Clear", width = 100)),
+        column(4, actionButton("add", "Add clusters", width = 100)),
+        column(4, disabled(actionButton("undo", "Undo", width = 100))),
+        column(4, disabled(actionButton("clear", "Clear", width = 100))),
         column(6, uiOutput("ui.xvar")),
         column(6, uiOutput("ui.yvar")),
+        br(),
         h3("# clusters"),
         verbatimTextOutput("ncluster"),
         br(),
