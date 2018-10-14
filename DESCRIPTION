@@ -8,7 +8,8 @@ Imports: shiny,
     sp,
     dplyr,
     ggplot2,
-    shinyjs
+    shinyjs,
+    scmisc
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
