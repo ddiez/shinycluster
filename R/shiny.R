@@ -46,7 +46,7 @@ server_fun <- function(values) {
     onStop(
       function() {
         observe({
-          stopApp(list(cluster_data = values$cluster_data, data = values$data))
+          stopApp(invisible(list(cluster_data = values$cluster_data, data = values$data)))
         })
       }
     )
