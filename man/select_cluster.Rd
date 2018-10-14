@@ -4,7 +4,10 @@
 \alias{select_cluster}
 \title{select_cluster}
 \usage{
-select_cluster()
+select_cluster(x)
+}
+\arguments{
+\item{x}{object to be passed to the shiny app.}
 }
 \description{
 select_cluster
