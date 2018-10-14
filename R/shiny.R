@@ -62,6 +62,16 @@ server_fun <- function(values) {
       }
     )
 
+    output$ui.xvar <- renderUI({
+      cols <- colnames(values$data)
+      selectInput("xvar", "xvar", choices = cols, selected = cols[1])
+    })
+
+    output$ui.yvar <- renderUI({
+      cols <- colnames(values$data)
+      selectInput("yvar", "yvar", choices = cols, selected = cols[2])
+    })
+
     observeEvent(input$clear, {
       values$add_cluster <- data.frame()
     })
@@ -119,7 +129,7 @@ server_fun <- function(values) {
 
       pol.x <- cluster_data$x[cluster_data$cluster == cluster]
       pol.y <- cluster_data$y[cluster_data$cluster == cluster]
-      sel <- point.in.polygon(data$x, data$y, pol.x, pol.y) == 1
+      sel <- point.in.polygon(data[[input$xvar]], data[[input$yvar]], pol.x, pol.y) == 1
       data$final[sel] <- cluster
 
       values$data <- data
@@ -139,18 +149,25 @@ server_fun <- function(values) {
     })
 
     output$plot <- renderPlot({
+      validate(
+        need(input$xvar, ""),
+        need(input$yvar, "")
+      )
+
       tmp <- bind_rows(values$data, values$cluster_data, values$add_cluster)
       tmp <- tmp %>% mutate(cluster = factor(cluster))
       tmp2 <- tmp %>% filter(cluster != "0")
 
       ncluster <- values$ncluster + 1
 
-      p <- ggplot(tmp, aes(x, y, color = cluster, size = cluster)) +
+      p <- ggplot(tmp, aes_string(input$xvar, input$yvar, color = "cluster", size = "cluster")) +
         geom_point() +
         scale_size_manual(values = c(1, rep(3, ncluster)))
+
       if (nrow(tmp2) > 1) {
         p <- p + geom_path(data = tmp2, size = 1)
       }
+
       p + geom_point(data = tmp2, size = 2, color = "white")
     })
 
@@ -165,6 +182,9 @@ server_fun <- function(values) {
     output$table <- renderDataTable({
       values$data
     })
+
+    output$debug <- renderPrint({
+    })
   }
   server
 }
@@ -178,11 +198,14 @@ ui_fun <- function() {
       sidebarPanel(
         actionButton("add", "Add clusters", width = 100),
         disabled(actionButton("undo", "Undo", width = 100)),
-        disabled(actionButton("clear", "Clear")),
+        disabled(actionButton("clear", "Clear", width = 100)),
+        column(6, uiOutput("ui.xvar")),
+        column(6, uiOutput("ui.yvar")),
         h3("# clusters"),
         verbatimTextOutput("ncluster"),
         br(),
-        verbatimTextOutput("info")
+        verbatimTextOutput("info"),
+        verbatimTextOutput("debug")
       ),
 
       mainPanel(
