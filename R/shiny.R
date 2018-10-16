@@ -25,11 +25,12 @@ app_fun <- function(x) {
   val <- get(obj_name, envir = parent.frame())
 
   values <- list(
-    data = val,
-    choose_cluster = FALSE,
-    ncluster = 0,
-    cluster_data = data.frame(),
-    add_cluster = data.frame()
+    data = val, # the original dataset.
+    choose_cluster = FALSE, # logical; whether we are in new cluster mode.
+    ncluster = 0, # current number of clusters.
+    cluster_data = data.frame(), # cluster data.
+    add_cluster = data.frame(), # data for defining a new cluster.
+    cluster = rep("none", nrow(val)) # cluster membership.
   )
 
   server <- server_fun(values)
@@ -46,7 +47,7 @@ server_fun <- function(values) {
     onStop(
       function() {
         observe({
-          stopApp(invisible(list(cluster_data = values$cluster_data, data = values$data)))
+          stopApp(invisible(list(cluster_data = values$cluster_data, cluster = values$cluster, data = values$data)))
         })
       }
     )
@@ -122,8 +123,9 @@ server_fun <- function(values) {
       pol.y <- cluster_data[[input$yvar]][cluster_data$cluster == cluster]
       sel <- point.in.polygon(data[[input$xvar]], data[[input$yvar]], pol.x, pol.y) == 1
       data$final[sel] <- cluster
-
       values$data <- data
+
+      values$cluster[sel] <- cluster
     }
 
     observeEvent(input$plot_dblclick, {
