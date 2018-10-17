@@ -30,7 +30,8 @@ app_fun <- function(x) {
     ncluster = 0, # current number of clusters.
     cluster_data = data.frame(), # cluster data.
     add_cluster = data.frame(), # data for defining a new cluster.
-    cluster = rep(NA_integer_, nrow(val)) # cluster membership.
+    cluster_tmp = rep(0, nrow(val)), # temporary cluster membership.
+    cluster = rep(0, nrow(val)) # cluster membership.
   )
 
   server <- server_fun(values)
@@ -122,8 +123,6 @@ server_fun <- function(values) {
       pol.x <- cluster_data[[input$xvar]][cluster_data$cluster == cluster]
       pol.y <- cluster_data[[input$yvar]][cluster_data$cluster == cluster]
       sel <- point.in.polygon(data[[input$xvar]], data[[input$yvar]], pol.x, pol.y) == 1
-      data$final[sel] <- cluster
-      values$data <- data
 
       values$cluster[sel] <- cluster
     }
@@ -147,7 +146,9 @@ server_fun <- function(values) {
         need(input$yvar, "")
       )
 
-      tmp <- bind_rows(values$data, values$cluster_data, values$add_cluster)
+      data <- values$data %>% mutate(cluster = values$cluster_tmp)
+
+      tmp <- bind_rows(data, values$cluster_data, values$add_cluster)
       tmp <- tmp %>% mutate(cluster = factor(cluster))
       tmp2 <- tmp %>% filter(cluster != "0")
 
@@ -173,7 +174,7 @@ server_fun <- function(values) {
     })
 
     output$table <- renderDataTable({
-      values$data
+      values$data %>% mutate(cluster = factor(values$cluster_tmp), final = factor(values$cluster))
     })
 
     output$debug <- renderPrint({
