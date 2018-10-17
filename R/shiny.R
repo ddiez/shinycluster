@@ -30,7 +30,7 @@ app_fun <- function(x) {
     ncluster = 0, # current number of clusters.
     cluster_data = data.frame(), # cluster data.
     add_cluster = data.frame(), # data for defining a new cluster.
-    cluster = rep("none", nrow(val)) # cluster membership.
+    cluster = rep(NA_integer_, nrow(val)) # cluster membership.
   )
 
   server <- server_fun(values)
