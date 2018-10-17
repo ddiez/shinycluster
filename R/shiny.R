@@ -149,8 +149,8 @@ server_fun <- function(values) {
       data <- values$data %>% mutate(cluster = values$cluster_tmp)
 
       tmp <- bind_rows(data, values$cluster_data, values$add_cluster)
-      tmp <- tmp %>% mutate(cluster = factor(cluster))
-      tmp2 <- tmp %>% filter(cluster != "0")
+      tmp <- tmp %>% mutate(cluster = factor(.data[["cluster"]]))
+      tmp2 <- tmp %>% filter(.data[["cluster"]] != "0")
 
       ncluster <- values$ncluster + 1
 
