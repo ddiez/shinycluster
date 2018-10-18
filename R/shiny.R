@@ -171,7 +171,7 @@ server_fun <- function(values) {
 
       tmp <-  values$cluster_data
       if (nrow(tmp) > 0) {
-        p <- p + geom_path(data = tmp, color = "red", group = tmp$cluster)
+        p <- p + geom_path(data = tmp, color = "violetred", group = tmp$cluster)
       }
 
       tmp <-  values$add_cluster
