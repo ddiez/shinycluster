@@ -157,9 +157,12 @@ server_fun <- function(values) {
       }
 
       tmp <-  values$add_cluster
+      if (nrow(tmp) > 1) {
+        p <- p + geom_path(data = tmp, color = "black", lty = "dotted")
+      }
+
       if (nrow(tmp) > 0) {
-        p <- p + geom_path(data = tmp, color = "black", lty = "dotted") +
-          geom_point(data = tmp, size = 3, color = "black") +
+          p <- p + geom_point(data = tmp, size = 3, color = "black") +
           geom_point(data = tmp, size = 1, color = "white")
       }
 
