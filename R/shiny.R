@@ -197,6 +197,7 @@ ui_fun <- function() {
         hr(),
         uiOutput("ui.xvar"),
         uiOutput("ui.yvar"),
+        sliderInput("size", "size", min = .1, max = 3, value = 1, step = .1, ticks = FALSE, width = 200),
         hr(),
         h3("Debug info"),
         verbatimTextOutput("ncluster"),
