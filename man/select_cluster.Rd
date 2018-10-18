@@ -3,11 +3,14 @@
 \name{select_cluster}
 \alias{select_cluster}
 \alias{select_cluster.data.frame}
+\alias{select_cluster.list}
 \title{select_cluster}
 \usage{
 select_cluster(x, ...)
 
 \method{select_cluster}{data.frame}(x, ...)
+
+\method{select_cluster}{list}(x, ...)
 }
 \arguments{
 \item{x}{object to be passed to the shiny app.}
