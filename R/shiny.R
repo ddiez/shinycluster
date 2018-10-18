@@ -153,18 +153,18 @@ server_fun <- function(values) {
 
       data <- values$data
 
-      p <- ggplot(data, aes_string(input$xvar, input$yvar))
+      p <- ggplot(data, aes_string(input$xvar, input$yvar), size = input$size)
 
       if (input$color == "none")
         p <- p + geom_point(color = "grey", size = input$size)
       else {
         cl <- class(data[[input$color]])
         if (cl %in% c("numeric", "integer")) {
-          p <- p + geom_point(aes_string(color = input$color)) +
+          p <- p + geom_point(aes_string(color = input$color), size = input$size) +
             scale_color_viridis_c()
         }
         if (cl %in% c("character", "factor")) {
-          p <- p + geom_point(aes_string(color = input$color)) +
+          p <- p + geom_point(aes_string(color = input$color), size = input$size) +
             scale_color_brewer(palette = "Set1")
         }
       }
@@ -181,7 +181,7 @@ server_fun <- function(values) {
 
       if (nrow(tmp) > 0) {
           p <- p + geom_point(data = tmp, size = 3, color = "black") +
-          geom_point(data = tmp, size = 1, color = "white")
+            geom_point(data = tmp, size = 1, color = "white")
       }
 
       p + theme_bw(base_size = 14)
