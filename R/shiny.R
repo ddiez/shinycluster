@@ -63,6 +63,11 @@ server_fun <- function(values) {
       selectInput("yvar", "yvar", choices = cols, selected = cols[2], width = 150)
     })
 
+    output$ui.color <- renderUI({
+      cols <- c("none", colnames(values$data))
+      selectInput("color", "color", choices = cols, selected = 1, width = 150)
+    })
+
     observeEvent(input$clear, {
       values$add_cluster <- data.frame()
     })
@@ -148,8 +153,21 @@ server_fun <- function(values) {
 
       data <- values$data
 
-      p <- ggplot(data, aes_string(input$xvar, input$yvar)) +
-        geom_point(color = "grey", size = input$size)
+      p <- ggplot(data, aes_string(input$xvar, input$yvar))
+
+      if (input$color == "none")
+        p <- p + geom_point(color = "grey", size = input$size)
+      else {
+        cl <- class(data[[input$color]])
+        if (cl %in% c("numeric", "integer")) {
+          p <- p + geom_point(aes_string(color = input$color)) +
+            scale_color_viridis_c()
+        }
+        if (cl %in% c("character", "factor")) {
+          p <- p + geom_point(aes_string(color = input$color)) +
+            scale_color_brewer(palette = "Set1")
+        }
+      }
 
       tmp <-  values$cluster_data
       if (nrow(tmp) > 0) {
@@ -201,6 +219,7 @@ ui_fun <- function() {
         hr(),
         uiOutput("ui.xvar"),
         uiOutput("ui.yvar"),
+        uiOutput("ui.color"),
         sliderInput("size", "size", min = .1, max = 3, value = 1, step = .1, ticks = FALSE, width = 200),
         hr(),
         h3("Debug info"),
