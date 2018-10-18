@@ -146,23 +146,24 @@ server_fun <- function(values) {
         need(input$yvar, "")
       )
 
-      data <- values$data %>% mutate(cluster = values$cluster_tmp)
+      data <- values$data
 
-      tmp <- bind_rows(data, values$cluster_data, values$add_cluster)
-      tmp <- tmp %>% mutate(cluster = factor(.data[["cluster"]]))
-      tmp2 <- tmp %>% filter(.data[["cluster"]] != "0")
+      p <- ggplot(data, aes_string(input$xvar, input$yvar)) +
+        geom_point(color = "grey", size = input$size)
 
-      ncluster <- values$ncluster + 1
-
-      p <- ggplot(tmp, aes_string(input$xvar, input$yvar, color = "cluster", size = "cluster")) +
-        geom_point() +
-        scale_size_manual(values = c(1, rep(3, ncluster)))
-
-      if (nrow(tmp2) > 1) {
-        p <- p + geom_path(data = tmp2, size = 1)
+      tmp <-  values$cluster_data
+      if (nrow(tmp) > 0) {
+        p <- p + geom_path(data = tmp, color = "red", group = tmp$cluster)
       }
 
-      p + geom_point(data = tmp2, size = 2, color = "white")
+      tmp <-  values$add_cluster
+      if (nrow(tmp) > 0) {
+        p <- p + geom_path(data = tmp, color = "black", lty = "dotted") +
+          geom_point(data = tmp, size = 3, color = "black") +
+          geom_point(data = tmp, size = 1, color = "white")
+      }
+
+      p
     })
 
     output$ncluster <- renderPrint({
