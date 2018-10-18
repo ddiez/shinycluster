@@ -55,12 +55,12 @@ server_fun <- function(values) {
 
     output$ui.xvar <- renderUI({
       cols <- colnames(values$data)
-      selectInput("xvar", "xvar", choices = cols, selected = cols[1])
+      selectInput("xvar", "xvar", choices = cols, selected = cols[1], width = 150)
     })
 
     output$ui.yvar <- renderUI({
       cols <- colnames(values$data)
-      selectInput("yvar", "yvar", choices = cols, selected = cols[2])
+      selectInput("yvar", "yvar", choices = cols, selected = cols[2], width = 150)
     })
 
     observeEvent(input$clear, {
@@ -92,7 +92,7 @@ server_fun <- function(values) {
 
     cluster_finish_editing <- function() {
       values$choose_cluster <- FALSE
-      updateActionButton(session, "add", "Add clusters")
+      updateActionButton(session, "add", "Add")
       disable("undo")
       disable("clear")
     }
@@ -191,15 +191,15 @@ ui_fun <- function() {
 
     sidebarLayout(
       sidebarPanel(
-        column(4, actionButton("add", "Add clusters", width = 100)),
-        column(4, disabled(actionButton("undo", "Undo", width = 100))),
-        column(4, disabled(actionButton("clear", "Clear", width = 100))),
-        column(6, uiOutput("ui.xvar")),
-        column(6, uiOutput("ui.yvar")),
-        br(),
-        h3("# clusters"),
+        actionButton("add", "Add", width = 100),
+        disabled(actionButton("undo", "Undo", width = 100)),
+        disabled(actionButton("clear", "Clear", width = 100)),
+        hr(),
+        uiOutput("ui.xvar"),
+        uiOutput("ui.yvar"),
+        hr(),
+        h3("Debug info"),
         verbatimTextOutput("ncluster"),
-        br(),
         verbatimTextOutput("info"),
         verbatimTextOutput("debug")
       ),
