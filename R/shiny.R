@@ -163,7 +163,7 @@ server_fun <- function(values) {
           geom_point(data = tmp, size = 1, color = "white")
       }
 
-      p
+      p + theme_bw(base_size = 14)
     })
 
     output$ncluster <- renderPrint({
