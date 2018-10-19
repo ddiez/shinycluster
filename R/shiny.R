@@ -14,9 +14,6 @@ select_cluster.data.frame <- function(x, ...) {
   env_ls <- ls(envir = parent.frame())
   obj_name <- deparse(substitute(x))
 
-  #if (! obj_name %in% env_ls)
-  #  stop("Object ", obj_name, " not found.")
-
   val <- get(obj_name, envir = parent.frame())
 
   values <- list(
