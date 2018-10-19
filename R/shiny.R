@@ -48,8 +48,6 @@ select_cluster.list <- function(x, ...) {
 }
 
 app_fun <- function(x) {
-
-
   server <- server_fun(x)
   ui <- ui_fun()
 
