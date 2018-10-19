@@ -19,11 +19,11 @@ select_cluster.data.frame <- function(x, ...) {
   values <- list(
     data = val, # the original dataset.
     choose_cluster = FALSE, # logical; whether we are in new cluster mode.
-    ncluster = 0, # current number of clusters.
+    ncluster = 0L, # current number of clusters.
     cluster_data = data.frame(), # cluster data.
     add_cluster = data.frame(), # data for defining a new cluster.
-    cluster_tmp = rep(0, nrow(val)), # temporary cluster membership.
-    cluster = rep(0, nrow(val)) # cluster membership.
+    cluster_tmp = rep(0L, nrow(val)), # temporary cluster membership.
+    cluster = rep(0L, nrow(val)) # cluster membership.
   )
 
   app <- app_fun(values)
@@ -36,7 +36,7 @@ select_cluster.list <- function(x, ...) {
   values <- list(
     data = x$data, # the original dataset.
     choose_cluster = FALSE, # logical; whether we are in new cluster mode.
-    ncluster = length(x$cluster), # current number of clusters.
+    ncluster = as.integer(length(x$cluster)), # current number of clusters.
     cluster_data = x$cluster_data, # cluster data.
     add_cluster = data.frame(), # data for defining a new cluster.
     cluster_tmp = x$cluster, # temporary cluster membership.
@@ -122,7 +122,7 @@ server_fun <- function(values) {
       values$add_cluster <- bind_rows(values$add_cluster, values$add_cluster[1, ])
       values$cluster_data <- bind_rows(values$cluster_data, values$add_cluster)
       values$add_cluster <- data.frame()
-      values$ncluster <- values$ncluster + 1
+      values$ncluster <- values$ncluster + 1L
       assign_cluster()
     }
 
@@ -130,7 +130,7 @@ server_fun <- function(values) {
       tmp <- list()
       tmp[[input$xvar]] <- x
       tmp[[input$yvar]] <- y
-      tmp[["cluster"]] <- values$ncluster + 1
+      tmp[["cluster"]] <- values$ncluster + 1L
       tmp <- as.data.frame(tmp)
 
       values$add_cluster <- bind_rows(values$add_cluster, tmp)
