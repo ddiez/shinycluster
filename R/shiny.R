@@ -17,12 +17,16 @@ select_cluster.data.frame <- function(x, ...) {
   val <- get(obj_name, envir = parent.frame())
 
   values <- list(
+    data = val, # the original dataset.
+    choose_cluster = FALSE, # logical; whether we are in new cluster mode.
+    ncluster = 0,
     cluster_data = data.frame(), # cluster data.
-    cluster = rep(0L, nrow(val)), # cluster membership.
-    data = val # the original dataset.
+    add_cluster = data.frame(), # data for defining a new cluster.
+    cluster_tmp = rep(0L, nrow(val)), # cluster membership.
+    cluster = rep(0L, nrow(val)) # cluster membership.
   )
 
-  select_cluster(values)
+  runApp(app_fun(values))
 }
 
 #' @rdname select_cluster
