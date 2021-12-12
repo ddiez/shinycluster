@@ -160,7 +160,7 @@ server_fun <- function(values) {
     })
 
     output$table <- renderDataTable({
-      values$data %>% mutate(cluster = factor(values$cluster_tmp), final = factor(values$cluster))
+      values$data |> mutate(cluster = factor(values$cluster_tmp), final = factor(values$cluster))
     })
 
     output$debug <- renderPrint({
