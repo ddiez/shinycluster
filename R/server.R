@@ -102,6 +102,13 @@ server_fun <- function(values) {
       }
     })
 
+    output$download <- downloadHandler(
+      filename = "clusters.rds",
+      content = function(con) {
+        write_rds(values$cluster_data, con)
+      }
+    )
+
     output$plot <- renderPlot({
       validate(
         need(input$xvar, ""),
