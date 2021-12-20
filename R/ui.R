@@ -23,7 +23,11 @@ ui_fun <- function() {
       ),
 
       mainPanel(
-        plotOutput("plot", width = "400px", click = "plot_click", dblclick = "plot_dblclick"),
+        fluidRow(
+          splitLayout(cellWidths = c("50%", "50%"),
+                      plotOutput("plot", width = "400px", click = "plot_click", dblclick = "plot_dblclick"),
+                      plotOutput("plot_alpha", width = "400px"))
+        ),
         dataTableOutput("table")
       )
     )

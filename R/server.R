@@ -154,6 +154,17 @@ server_fun <- function(values) {
 
       p + theme_bw(base_size = 14) + guides(color = "none", fill = "none")
     })
+
+    output$plot_alpha <- renderPlot({
+      validate(
+        need(input$xvar, ""),
+        need(input$yvar, "")
+      )
+
+      data <- values$data
+
+      p <- ggplot(data, aes(.data[[input$xvar]], .data[[input$yvar]]))
+      p <- p + geom_point(color = "black", alpha = .5, size = input$size)
       p + theme_bw(base_size = 14)
     })
 
