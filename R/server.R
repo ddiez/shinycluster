@@ -105,7 +105,7 @@ server_fun <- function(values) {
     output$download <- downloadHandler(
       filename = "clusters.rds",
       content = function(con) {
-        write_rds(values$cluster, con)
+        write_rds(list(cluster = values$cluster, data = values$data, cluster_data = values$cluster_data), con)
       }
     )
 
