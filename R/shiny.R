@@ -19,7 +19,7 @@ select_cluster.data.frame <- function(x, ...) {
   values <- list(
     data = val, # the original dataset.
     choose_cluster = FALSE, # logical; whether we are in new cluster mode.
-    ncluster = 0,
+    ncluster = 0L,
     cluster_data = data.frame(), # cluster data.
     add_cluster = data.frame(), # data for defining a new cluster.
     cluster_tmp = rep(0L, nrow(val)), # cluster membership.
