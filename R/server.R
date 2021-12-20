@@ -21,7 +21,7 @@ server_fun <- function(values) {
     })
 
     output$ui.color <- renderUI({
-      cols <- c("none", colnames(values$data))
+      cols <- c("none", "density", colnames(values$data))
       selectInput("color", "color", choices = cols, selected = 1, width = 150)
     })
 
@@ -121,7 +121,11 @@ server_fun <- function(values) {
 
       if (input$color == "none")
         p <- p + geom_point(color = "grey", size = input$size)
-      else {
+
+      if (input$color == "density")
+        p <- p + geom_bin_2d(bins = 50) + scale_fill_viridis_c(trans = "log10")
+
+      if (! input$color %in% c("none", "density")) {
         cl <- class(data[[input$color]])
         if (cl %in% c("numeric", "integer")) {
           p <- p + geom_point(aes_string(color = input$color), size = input$size) +
@@ -148,6 +152,8 @@ server_fun <- function(values) {
           geom_point(data = tmp, size = 1, color = "white")
       }
 
+      p + theme_bw(base_size = 14) + guides(color = "none", fill = "none")
+    })
       p + theme_bw(base_size = 14)
     })
 
