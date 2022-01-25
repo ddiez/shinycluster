@@ -14,6 +14,8 @@ ui_fun <- function() {
         uiOutput("ui.color"),
         sliderInput("size", "size", min = .1, max = 3, value = 1, step = .1, ticks = FALSE, width = 200),
         hr(),
+        #uiOutput("cluster_info"),
+        hr(),
         downloadButton("download", "Download"),
         hr(),
         h3("Debug info"),

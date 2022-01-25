@@ -102,6 +102,18 @@ server_fun <- function(values) {
       }
     })
 
+    # output$cluster_info <- renderUI({
+    #   ncluster <- values$ncluster
+    #
+    #   #if (ncluster > 0) {
+    #     clusters <- unique(values$cluster)
+    #     tl <- lapply(clusters, function(cluster) {
+    #       textInput(as.character(cluster), label = cluster, value = cluster, width = "50px")
+    #     })
+    #     return(tagList(tl))
+    #   #}
+    # })
+
     output$download <- downloadHandler(
       filename = "clusters.rds",
       content = function(con) {
