@@ -21,7 +21,7 @@ server_fun <- function(values) {
     })
 
     output$ui.color <- renderUI({
-      cols <- c("none", "density", colnames(values$data))
+      cols <- c("none", "density", "contour", colnames(values$data))
       selectInput("color", "color", choices = cols, selected = 1, width = 150)
     })
 
@@ -125,6 +125,9 @@ server_fun <- function(values) {
       if (input$color == "density")
         p <- p + geom_bin_2d(bins = 50) + scale_fill_viridis_c(trans = "log10")
 
+      if (input$color == "contour")
+        p <- p + geom_point(color = "grey", size = input$size) + geom_density_2d(color = "red")
+
       if (! input$color %in% c("none", "density")) {
         cl <- class(data[[input$color]])
         if (cl %in% c("numeric", "integer")) {
@@ -155,7 +158,7 @@ server_fun <- function(values) {
       p + theme_bw(base_size = 14) + guides(color = "none", fill = "none")
     })
 
-    output$plot_alpha <- renderPlot({
+    output$plot_info <- renderPlot({
       validate(
         need(input$xvar, ""),
         need(input$yvar, "")
@@ -164,7 +167,14 @@ server_fun <- function(values) {
       data <- values$data
 
       p <- ggplot(data, aes(.data[[input$xvar]], .data[[input$yvar]]))
-      p <- p + geom_point(color = "black", alpha = .5, size = input$size)
+      p <- p + geom_point(color = "black", alpha = .5, size = input$size) +
+        geom_density_2d(color = "red")
+
+      tmp <-  values$cluster_data
+      if (nrow(tmp) > 0) {
+        p <- p + geom_path(data = tmp, color = "violetred", group = tmp$cluster)
+      }
+
       p + theme_bw(base_size = 14)
     })
 

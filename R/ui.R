@@ -26,7 +26,7 @@ ui_fun <- function() {
         fluidRow(
           splitLayout(cellWidths = c("50%", "50%"),
                       plotOutput("plot", width = "400px", click = "plot_click", dblclick = "plot_dblclick"),
-                      plotOutput("plot_alpha", width = "400px"))
+                      plotOutput("plot_info", width = "400px"))
         ),
         dataTableOutput("table")
       )
