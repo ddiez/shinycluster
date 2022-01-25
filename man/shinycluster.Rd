@@ -3,8 +3,4 @@
 \docType{package}
 \name{shinycluster}
 \alias{shinycluster}
-\alias{shinycluster-package}
 \title{shinycluster.}
-\description{
-shinycluster.
-}

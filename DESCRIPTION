@@ -1,6 +1,6 @@
 Package: shinycluster
 Title: A shiny app to draw clusters on scatter plots
-Version: 0.0.6.9000
+Version: 0.0.7
 Authors@R: 'Diego Diez <diego10ruiz@gmail.com> [aut, cre]'
 Description: A shiny app to draw clusters on scatter plots.
 Depends: R (>= 3.5.0)
@@ -12,4 +12,4 @@ Imports: shiny,
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.2
