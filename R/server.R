@@ -5,10 +5,14 @@ server_fun <- function(values) {
     onStop(
       function() {
         observe({
-          stopApp(invisible(list(cluster_data = values$cluster_data, cluster = values$cluster, data = values$data)))
+          stopApp(list(cluster_data = values$cluster_data, cluster = values$cluster, data = values$data))
         })
       }
     )
+
+    observeEvent(input$done, {
+      stopApp(list(cluster_data = values$cluster_data, cluster = values$cluster, data = values$data))
+    })
 
     output$ui.xvar <- renderUI({
       cols <- colnames(values$data)
@@ -50,6 +54,7 @@ server_fun <- function(values) {
       updateActionButton(session, "add", "Finish")
       enable("undo")
       enable("clear")
+      disable("done")
     }
 
     cluster_finish_editing <- function() {
@@ -57,6 +62,7 @@ server_fun <- function(values) {
       updateActionButton(session, "add", "Add")
       disable("undo")
       disable("clear")
+      enable("done")
     }
 
     cluster_finish <- function() {

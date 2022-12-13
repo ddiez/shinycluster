@@ -8,6 +8,7 @@ ui_fun <- function() {
         actionButton("add", "Add", width = 100),
         disabled(actionButton("undo", "Undo", width = 100)),
         disabled(actionButton("clear", "Clear", width = 100)),
+        actionButton("done", "Done", width = 100),
         hr(),
         uiOutput("ui.xvar"),
         uiOutput("ui.yvar"),
