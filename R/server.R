@@ -150,7 +150,8 @@ server_fun <- function(values) {
         cl <- class(data[[input$color]])
         if (cl %in% c("numeric", "integer")) {
           p <- p + geom_point(aes_string(color = input$color), size = input$size) +
-            scale_color_viridis_c()
+            scale_color_distiller(palette="Spectral")
+            #scale_color_viridis_c()
         }
         if (cl %in% c("character", "factor")) {
           p <- p + geom_point(aes_string(color = input$color), size = input$size) +
